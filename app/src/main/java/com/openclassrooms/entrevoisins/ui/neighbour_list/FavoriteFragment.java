@@ -22,7 +22,7 @@ import java.util.List;
 public class FavoriteFragment extends Fragment {
 
     private NeighbourApiService mApiService;
-    private List<Neighbour> mNeighbours;
+    private List<Neighbour> mFavoriteNeighbours;
     private RecyclerView mRecyclerView;
 
     public static FavoriteFragment newInstance() { return (new FavoriteFragment()); }
@@ -46,10 +46,12 @@ public class FavoriteFragment extends Fragment {
     }
 
     private void initList() {
-        mNeighbours = mApiService.getNeighbours();
-        // boucle for (mNeighbours) avec ajout champs FlagFavorite
-        // Si FlagFavorite = true
-        mRecyclerView.setAdapter(new MyFavoriteRecyclerViewAdapter(mNeighbours));
+        mFavoriteNeighbours = mApiService.getNeighbours();
+        mFavoriteNeighbours.removeIf(favoriteFlag -> false);
+        for (Neighbour neighbour: mFavoriteNeighbours) {
+            Log.d("FAVORITE FEATURE", "initList: Remove result for " + neighbour.getName() + "FavoriteFlag:" + neighbour.getFavoriteFlag());
+        }
+        mRecyclerView.setAdapter(new MyFavoriteRecyclerViewAdapter(mFavoriteNeighbours));
     }
 
     @Override
