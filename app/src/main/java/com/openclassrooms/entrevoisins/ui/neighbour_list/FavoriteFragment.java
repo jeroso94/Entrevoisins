@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -45,11 +48,26 @@ public class FavoriteFragment extends Fragment {
         return view;
     }
 
+    /* Affichage des favoris avec la méthode removeIf
     private void initList() {
         mFavoriteNeighbours = mApiService.getNeighbours();
         mFavoriteNeighbours.removeIf(favoriteFlag -> false);
         for (Neighbour neighbour: mFavoriteNeighbours) {
             Log.d("FAVORITE FEATURE", "initList: Remove result for " + neighbour.getName() + "FavoriteFlag:" + neighbour.getFavoriteFlag());
+        }
+        mRecyclerView.setAdapter(new MyFavoriteRecyclerViewAdapter(mFavoriteNeighbours));
+    }
+
+     */
+
+    /* Affichage des favoris avec la classe Iterator */
+    private void initList() {
+        mFavoriteNeighbours = new ArrayList<>(mApiService.getNeighbours());
+        for (Iterator<Neighbour> neighbourIterator = mFavoriteNeighbours.iterator(); neighbourIterator.hasNext(); ){
+            Neighbour neighbour = neighbourIterator.next();
+            if(!neighbour.getFavoriteFlag()){
+                neighbourIterator.remove();
+            }
         }
         mRecyclerView.setAdapter(new MyFavoriteRecyclerViewAdapter(mFavoriteNeighbours));
     }
