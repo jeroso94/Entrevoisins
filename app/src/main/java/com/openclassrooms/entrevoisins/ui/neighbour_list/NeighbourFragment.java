@@ -76,8 +76,9 @@ public class NeighbourFragment extends Fragment {
                         // Afficher le nom du voisin pour confirmer la cohérence du code
                         Toast.makeText(getContext(), "You clicked on user : "+neighbour.getName(), Toast.LENGTH_SHORT).show();
                         // Démarrer l'activité pour afficher le profil utilisateur
-                        Intent intent = new Intent(getActivity(), NeighbourActivity.class);
-                        startActivity(intent);
+                        Intent mIntent = new Intent(getActivity(), NeighbourActivity.class);
+                        mIntent.putExtra("ID", neighbour.getId());
+                        startActivity(mIntent);
                     }
                 });
     }
