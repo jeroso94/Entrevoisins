@@ -53,8 +53,10 @@ public class MyFavoriteRecyclerViewAdapter extends RecyclerView.Adapter<MyFavori
         holder.mDeleteButtonFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "You clicked on Delete", Toast.LENGTH_SHORT).show();
-                //EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour));
+                Toast.makeText(v.getContext(), "Successfully removed from favorites", Toast.LENGTH_SHORT).show();
+                neighbour.setFavoriteFlag(false);
+                mNeighbours.remove(position);
+                MyFavoriteRecyclerViewAdapter.this.notifyDataSetChanged();
             }
         });
     }
