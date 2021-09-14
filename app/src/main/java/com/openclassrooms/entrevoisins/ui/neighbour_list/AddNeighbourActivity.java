@@ -40,7 +40,6 @@ public class AddNeighbourActivity extends AppCompatActivity {
 
     private NeighbourApiService mApiService;
     private String mNeighbourImage;
-    private Boolean mFavoriteFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +88,7 @@ public class AddNeighbourActivity extends AppCompatActivity {
                 addressInput.getEditText().getText().toString(),
                 phoneInput.getEditText().getText().toString(),
                 aboutMeInput.getEditText().getText().toString(),
-                mFavoriteFlag = false
+                false
         );
         mApiService.createNeighbour(neighbour);
         finish();
