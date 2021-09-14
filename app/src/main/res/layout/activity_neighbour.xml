@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.neighbour_list.NeighbourActivity">
+    tools:context=".ui.neighbour_list.NeighbourActivity"
+    android:id="@+id/neighbour_profile_container">
 
     <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
