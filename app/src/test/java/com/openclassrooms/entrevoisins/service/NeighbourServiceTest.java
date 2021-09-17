@@ -42,7 +42,7 @@ public class NeighbourServiceTest {
         assertFalse(service.getNeighbours().contains(neighbourToDelete));
     }
 
-    // TESTED - S'assurer de l'opérabilité de la méthode de construction de la liste des Favoris qui sera affichée dans la RecyclerView
+    // TESTED - S'assurer que la méthode createFavoriteList se construit qu'avec des items marqués comme favori
     @Test
     public void createFavoriteListWithSuccess(){
         //Préparation du jeu de test
