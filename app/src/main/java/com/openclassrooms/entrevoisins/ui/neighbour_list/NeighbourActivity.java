@@ -88,20 +88,7 @@ public class NeighbourActivity extends AppCompatActivity {
 
     @OnClick(R.id.floatingActionButton)
     void addToFavorite() {
-        //Log.d("NEIGHBOUR's PROFILE", "addToFavorite: is clicked");
-        mNeighbours = mApiService.getNeighbours();
-        for(Neighbour registeredNeighbour: mNeighbours) {
-            //Log.d("NEIGHBOUR's PROFILE", registeredNeighbour.getFavoriteFlag().toString());
-            if (registeredNeighbour.getId() == mClickedId) {
-                if (!registeredNeighbour.getFavoriteFlag()) {
-                    registeredNeighbour.setFavoriteFlag(Boolean.TRUE);
-                    //Log.d("NEIGHBOUR's PROFILE", registeredNeighbour.getFavoriteFlag().toString());
-                    mFloatingActionButton.setImageResource(R.drawable.ic_baseline_star_24);
-                } else{
-                    registeredNeighbour.setFavoriteFlag(Boolean.FALSE);
-                    mFloatingActionButton.setImageResource(R.drawable.ic_baseline_star_border_24);
-                }
-            }
-        }
+        boolean result = mApiService.addFavorite(mClickedId);
+        if (result) mFloatingActionButton.setImageResource(R.drawable.ic_baseline_star_24); else mFloatingActionButton.setImageResource(R.drawable.ic_baseline_star_border_24);
     }
 }
