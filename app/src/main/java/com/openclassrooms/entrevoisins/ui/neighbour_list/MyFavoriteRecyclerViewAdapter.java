@@ -12,8 +12,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -22,6 +24,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static java.lang.Boolean.FALSE;
+
 
 /**
  * Created by JeroSo94 on 16/08/2021.
@@ -29,6 +33,7 @@ import butterknife.ButterKnife;
 public class MyFavoriteRecyclerViewAdapter extends RecyclerView.Adapter<MyFavoriteRecyclerViewAdapter.ViewHolder>{
 
     private final List<Neighbour> mNeighbours;
+    private NeighbourApiService mApiService;
 
     public MyFavoriteRecyclerViewAdapter(List<Neighbour> items) {
         mNeighbours = items;
@@ -38,25 +43,32 @@ public class MyFavoriteRecyclerViewAdapter extends RecyclerView.Adapter<MyFavori
     public MyFavoriteRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_favorite, parent, false);
+
+        // Connexion à l'API pour une recherche d'utilisateurs
+        mApiService = DI.getNeighbourApiService();
+
         return new MyFavoriteRecyclerViewAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final MyFavoriteRecyclerViewAdapter.ViewHolder holder, int position) {
-        Neighbour neighbour = mNeighbours.get(position);
-        holder.mNeighbourNameFavorite.setText(neighbour.getName());
+        Neighbour favoriteNeighbour = mNeighbours.get(position);
+        holder.mNeighbourNameFavorite.setText(favoriteNeighbour.getName());
         Glide.with(holder.mNeighbourAvatarFavorite.getContext())
-                .load(neighbour.getAvatarUrl())
+                .load(favoriteNeighbour.getAvatarUrl())
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.mNeighbourAvatarFavorite);
 
         holder.mDeleteButtonFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Successfully removed from favorites", Toast.LENGTH_SHORT).show();
-                neighbour.setFavoriteFlag(false);
-                mNeighbours.remove(position);
-                MyFavoriteRecyclerViewAdapter.this.notifyDataSetChanged();
+                boolean result = FALSE;
+                result = mApiService.deleteFavorite(favoriteNeighbour);
+                if (result) {
+                    mNeighbours.remove(favoriteNeighbour);
+                    MyFavoriteRecyclerViewAdapter.this.notifyDataSetChanged();
+                    Toast.makeText(v.getContext(), "Successfully removed from favorites", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

@@ -60,15 +60,8 @@ public class FavoriteFragment extends Fragment {
 
      */
 
-    /* Affichage des favoris avec la classe Iterator */
     private void initList() {
-        mFavoriteNeighbours = new ArrayList<>(mApiService.getNeighbours());
-        for (Iterator<Neighbour> neighbourIterator = mFavoriteNeighbours.iterator(); neighbourIterator.hasNext(); ){
-            Neighbour neighbour = neighbourIterator.next();
-            if(!neighbour.getFavoriteFlag()){
-                neighbourIterator.remove();
-            }
-        }
+        mFavoriteNeighbours = mApiService.createFavoriteList();
         mRecyclerView.setAdapter(new MyFavoriteRecyclerViewAdapter(mFavoriteNeighbours));
     }
 
