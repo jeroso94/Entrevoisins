@@ -65,6 +65,8 @@ public class NeighbourServiceTest {
 
         //Evaluation du résultat
         assertFalse(service.getNeighbours().get(0).getFavoriteFlag());
+
+        service.getNeighbours().get(0).setFavoriteFlag(Boolean.FALSE);
     }
 
     // TESTED - S'assurer que la methode deleteFavorite modifie le champs FavoriteFlag à FALSE pour le favori concerné
@@ -73,5 +75,6 @@ public class NeighbourServiceTest {
         Neighbour favoriteToDelete = DummyNeighbourGenerator.DUMMY_NEIGHBOURS.get(6);
         service.deleteFavorite(favoriteToDelete);
         assertFalse(service.getNeighbours().get(6).getFavoriteFlag());
+        service.getNeighbours().get(6).setFavoriteFlag(Boolean.TRUE);
     }
 }
